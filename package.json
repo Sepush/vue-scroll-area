@@ -1,0 +1,25 @@
+{
+  "name": "vue-scroll-area-monorepo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm -r --parallel --filter 'vue-scroll-area' --filter 'playground' run dev",
+    "dev:lib": "pnpm --filter vue-scroll-area dev",
+    "dev:playground": "pnpm --filter playground dev",
+    "build": "pnpm --filter vue-scroll-area build",
+    "build:playground": "pnpm --filter playground build",
+    "preview": "pnpm --filter playground preview",
+    "test": "pnpm --filter vue-scroll-area test"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.14",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4",
+    "vite-plugin-dts": "^4.5.4",
+    "vue": "^3.5.17",
+    "vue-tsc": "^2.2.12"
+  },
+  "packageManager": "pnpm@10.13.1"
+}
