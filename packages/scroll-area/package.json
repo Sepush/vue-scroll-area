@@ -1,6 +1,6 @@
 {
   "name": "vue-scroll-area",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Vue 3 component for a scroll area with DOM-level custom scrollbar",
   "type": "module",
   "main": "dist/vue-scroll-area.js",
