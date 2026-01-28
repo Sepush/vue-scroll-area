@@ -9,14 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.5.17",
+    "vue": "catalog:",
     "vue-scroll-area": "workspace:^"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.0",
-    "typescript": "~5.8.3",
-    "vite": "^7.0.4",
-    "vue-tsc": "^2.2.12"
+    "@vitejs/plugin-vue": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
   },
   "packageManager": "pnpm@10.13.1"
 }
