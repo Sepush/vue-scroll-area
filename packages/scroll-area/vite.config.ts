@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import dts from 'vite-plugin-dts'
 import { resolve } from 'node:path'
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   plugins: [
@@ -9,24 +9,24 @@ export default defineConfig({
     dts({
       outDir: 'dist',
       insertTypesEntry: true,
-      exclude: ['node_modules/**']
-    })
+      exclude: ['node_modules/**'],
+    }),
   ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'VueScrollArea',
       fileName: 'vue-scroll-area',
-      formats: ['es']
+      formats: ['es'],
     },
     rollupOptions: {
       external: ['vue'],
       output: {
         globals: {
-          vue: 'Vue'
-        }
-      }
+          vue: 'Vue',
+        },
+      },
     },
-    minify: 'terser'
-  }
+    minify: 'terser',
+  },
 })

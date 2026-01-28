@@ -1,0 +1,47 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "import",
+    "typescript",
+    "unicorn",
+    "react",
+    "oxc",
+    "vue"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn",
+    "style": "off",
+    "pedantic": "off",
+    "restriction": "off"
+  },
+  "rules": {
+    "typescript/no-floating-promises": "error",
+    "typescript/no-unsafe-assignment": "error",
+    "typescript/no-unsafe-call": "error",
+    "typescript/no-unsafe-member-access": "error",
+    "typescript/no-unsafe-return": "error",
+    "vue/no-unused-refs": "error",
+    "vue/no-ref-as-operand": "error",
+    "vue/require-v-for-key": "error",
+    "vue/valid-v-for": "error",
+    "vue/valid-v-model": "error",
+    "vue/no-multiple-template-root": "error",
+    "vue/no-use-v-if-with-v-for": "warn"
+  },
+  "env": {
+    "browser": true,
+    "es2024": true,
+    "node": true
+  },
+  "globals": {},
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.git/**",
+    "**/*.d.ts"
+  ],
+  "settings": {}
+}

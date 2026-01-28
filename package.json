@@ -9,17 +9,37 @@
     "build": "pnpm --filter vue-scroll-area build",
     "build:playground": "pnpm --filter playground build",
     "preview": "pnpm --filter playground preview",
-    "test": "pnpm --filter vue-scroll-area test"
+    "test": "pnpm --filter vue-scroll-area test",
+    "format": "dprint fmt",
+    "format:check": "dprint check",
+    "lint": "oxlint --vue-plugin --type-aware",
+    "lint:check": "oxlint --vue-plugin --type-aware --deny-warnings",
+    "lint:fix": "oxlint --vue-plugin --type-aware --fix",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/node": "^24.0.14",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vue/tsconfig": "^0.7.0",
+    "dprint": "^0.51.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "oxlint": "^1.42.0",
+    "oxlint-tsgolint": "^0.11.2",
     "typescript": "~5.8.3",
     "vite": "^7.0.4",
     "vite-plugin-dts": "^4.5.4",
     "vue": "^3.5.17",
     "vue-tsc": "^2.2.12"
   },
-  "packageManager": "pnpm@10.13.1"
+  "packageManager": "pnpm@10.13.1",
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,vue}": [
+      "dprint fmt",
+      "oxlint --vue-plugin --type-aware --deny-warnings"
+    ],
+    "*.{json,md,toml,yaml,yml}": [
+      "dprint fmt"
+    ]
+  }
 }

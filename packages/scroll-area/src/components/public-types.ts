@@ -1,4 +1,4 @@
-import type { CSSProperties, Ref, VNode, Component } from "vue"
+import type { Component, CSSProperties, Ref, VNode } from 'vue'
 
 export type ScrollAreaInjection = {
   registerScrollBars: (refs: {

@@ -1,10 +1,10 @@
-
 # Vue Scroll Area
 
 A Vue 3 component for a scroll area with DOM-level custom scrollbar.
+
 ## Credit
 
-Idea and original implementation are come from [@07akioni](https://github.com/07akioni) 
+Idea and original implementation are come from [@07akioni](https://github.com/07akioni)
 
 Repo: [react-scroll-area-demo](https://github.com/07akioni/react-scroll-area-demo)
 
@@ -15,9 +15,11 @@ I just learn and port it to Vue 3.
 ```bash
 pnpm i vue-scroll-area
 ```
+
 ## Usage
 
 ### Basic
+
 ```vue
 <template>
   <ScrollArea :style="{ height: '200px' }">
@@ -30,7 +32,9 @@ pnpm i vue-scroll-area
 import { ScrollArea } from 'vue-scroll-area'
 </script>
 ```
+
 ### Resizeable content
+
 ```vue
 <template>
   <ScrollArea :style="{ height: '200px' }">
@@ -65,8 +69,8 @@ const textareaContainerRenderer: ScrollAreaContainerRender = (props) => {
   return h(TextareaContainer, props)
 }
 </script>
-
 ```
+
 ```vue
 // TextareaContainer.vue
 <template>
@@ -153,7 +157,6 @@ const textMirrorStyle = {
   ...textareaSharedStyle,
 } as const
 </script>
-
 ```
 
 ## Development Setup
