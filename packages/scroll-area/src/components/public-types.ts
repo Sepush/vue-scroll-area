@@ -1,12 +1,10 @@
-import type { Component, CSSProperties, Ref, VNode } from 'vue'
+import type { CSSProperties, Ref, VNodeChild } from 'vue'
 
 export type ScrollAreaInjection = {
-  registerScrollBars: (refs: {
-    horizontalBarRef: Ref<HTMLDivElement | null>
-    horizontalGutterRef: Ref<HTMLDivElement | null>
-    verticalBarRef: Ref<HTMLDivElement | null>
-    verticalGutterRef: Ref<HTMLDivElement | null>
-  }) => void
+  horizontalBar?: Ref<HTMLDivElement | null>
+  horizontalGutter?: Ref<HTMLDivElement | null>
+  verticalBar?: Ref<HTMLDivElement | null>
+  verticalGutter?: Ref<HTMLDivElement | null>
   deriveScrollingStatus?: () => void
 }
 
@@ -15,11 +13,11 @@ export type ScrollAreaContainerProps = {
   scrollAreaClass?: string
   onContainerScroll: () => void
   onContainerResize: () => void
-  onContentResize?: () => void
+  onContentResize: () => void
   style?: CSSProperties
 }
 
-export type ScrollAreaContainerRender = (props: ScrollAreaContainerProps) => Component
+export type ScrollAreaContainerRender = (props: ScrollAreaContainerProps) => VNodeChild
 
 export type ScrollAreaProps = {
   style?: CSSProperties
@@ -27,7 +25,7 @@ export type ScrollAreaProps = {
   verticalScrollbarMinHeight?: string | number
   horizontalScrollbarMinWidth?: string | number
 }
-export type ScrollAreaGuttersRender = (props: ScrollAreaGuttersProps) => VNode
+export type ScrollAreaGuttersRender = (props: ScrollAreaGuttersProps) => VNodeChild
 export type ScrollAreaGuttersProps = {
   /**
    * most case use use `sticky` position

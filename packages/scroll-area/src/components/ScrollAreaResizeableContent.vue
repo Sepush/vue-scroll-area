@@ -1,22 +1,19 @@
 <script setup lang="ts">
-import { inject, onMounted, onUnmounted, useTemplateRef } from 'vue';
+import { inject, onWatcherCleanup, useTemplateRef, watchEffect } from 'vue';
 import { scrollAreaInjectionKey } from './context';
 
-const domRef = useTemplateRef<HTMLDivElement>('dom');
+useTemplateRef<HTMLDivElement>('dom');
 
 const scrollAreaContext = inject(scrollAreaInjectionKey, null);
 
-let resizeObserver: ResizeObserver | null = null;
-
-onMounted(() => {
-  resizeObserver = new ResizeObserver(() => {
+watchEffect(() => {
+  const resizeObserver = new ResizeObserver(() => {
     scrollAreaContext?.deriveScrollingStatus?.();
   });
-  resizeObserver.observe(domRef.value!);
-});
 
-onUnmounted(() => {
-  resizeObserver?.disconnect();
+  onWatcherCleanup(() => {
+    resizeObserver?.disconnect();
+  })
 });
 </script>
 

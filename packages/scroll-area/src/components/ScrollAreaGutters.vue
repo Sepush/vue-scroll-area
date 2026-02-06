@@ -15,12 +15,10 @@ const verticalGutterRef = useTemplateRef<HTMLDivElement>('verticalGutterRef')
 const verticalBarRef = useTemplateRef<HTMLDivElement>('verticalBarRef')
 
 onMounted(()=>{
-  scrollAreaContext?.registerScrollBars({
-    horizontalBarRef,
-    horizontalGutterRef,
-    verticalBarRef,
-    verticalGutterRef
-  });
+  scrollAreaContext!.horizontalBar!.value = horizontalBarRef.value
+  scrollAreaContext!.horizontalGutter!.value = horizontalGutterRef.value
+  scrollAreaContext!.verticalBar!.value = verticalBarRef.value
+  scrollAreaContext!.verticalGutter!.value = verticalGutterRef.value
 })
 </script>
 

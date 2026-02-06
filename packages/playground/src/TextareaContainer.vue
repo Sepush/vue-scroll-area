@@ -15,7 +15,7 @@
   >
     <ScrollAreaGutters position="absolute" />
     <textarea
-      :class="props.scrollAreaClass || 'scroll-area'"
+      :class="props.scrollAreaClass"
       :ref="(el: any) => { props.containerDomRef.value = el }"
       v-model="textareaRef"
       @scroll="props.onContainerScroll"

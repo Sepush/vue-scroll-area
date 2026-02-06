@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onUnmounted, type Ref, type VNode, watchEffect, computed, provide } from 'vue'
+import { ref, computed, provide, onMounted, watch, onWatcherCleanup } from 'vue'
 import type { ScrollAreaProps } from './public-types'
 import { scrollAreaInjectionKey } from './context'
 import { setupScrolling } from './setup-scroll'
@@ -13,68 +13,26 @@ const {
   style,
 } = defineProps<ScrollAreaProps>()
 
-const slots = defineSlots<{
-  default(): VNode[]
-}>()
-
-const isDefaultContainer = containerRender === undefined
 const containerDomRef = ref<HTMLElement | null>(null)
 const horizontalBarRef = ref<HTMLDivElement | null>(null)
 const horizontalGutterRef = ref<HTMLDivElement | null>(null)
 const verticalBarRef = ref<HTMLDivElement | null>(null)
 const verticalGutterRef = ref<HTMLDivElement | null>(null)
+const deriveScrollingStatusRef = ref<(() => void)>(()=>{})
 
 let teardownFn: (() => void) | null = null
-let deriveScrollingStatusFn: (() => void) | null = null
 
-const scrollAreaContext = {
-  registerScrollBars: (refs: {
-    horizontalBarRef: Ref<HTMLDivElement | null>
-    horizontalGutterRef: Ref<HTMLDivElement | null>
-    verticalBarRef: Ref<HTMLDivElement | null>
-    verticalGutterRef: Ref<HTMLDivElement | null>
-  }) => {
-    horizontalBarRef.value = refs.horizontalBarRef.value
-    horizontalGutterRef.value = refs.horizontalGutterRef.value
-    verticalBarRef.value = refs.verticalBarRef.value
-    verticalGutterRef.value = refs.verticalGutterRef.value
-  },
-  deriveScrollingStatus
+const scrollElements = {
+  horizontalBar: horizontalBarRef,
+  horizontalGutter: horizontalGutterRef,
+  verticalBar: verticalBarRef,
+  verticalGutter: verticalGutterRef,
+  deriveScrollingStatus: deriveScrollingStatusRef.value
 }
 
-provide(scrollAreaInjectionKey, scrollAreaContext)
+provide(scrollAreaInjectionKey,scrollElements)
 
-function deriveScrollingStatus() {
-  deriveScrollingStatusFn?.()
-}
-
-const onContainerResize = () => {
-  const offsetHeight = containerDomRef.value?.offsetHeight
-  verticalGutterRef.value!.style.setProperty('--container-height', `${offsetHeight}px`)
-  horizontalGutterRef.value!.style.setProperty('--container-height', `${offsetHeight}px`)
-  deriveScrollingStatus()
-}
-
-const containerProps = computed(() => ({
-  containerDomRef,
-  style,
-  scrollAreaClass: 'scroll-area',
-  onContainerScroll: deriveScrollingStatus,
-  onContainerResize,
-  onContentResize: deriveScrollingStatus,
-}))
-
-watchEffect(() => {
-  if(!containerDomRef.value||!horizontalBarRef.value||!horizontalGutterRef.value||!verticalBarRef.value||!verticalGutterRef.value) {
-    return
-  }
-  onContainerResize()
-})
-
-watchEffect(()=>{
-  if(!containerDomRef.value||!horizontalBarRef.value||!horizontalGutterRef.value||!verticalBarRef.value||!verticalGutterRef.value) {
-    return
-  }
+onMounted(()=>{
   const { teardown, deriveScrollingStatus: derive } = setupScrolling({
     getVerticalBarMinHeight: () => {
       const height = verticalScrollbarMinHeight
@@ -100,37 +58,55 @@ watchEffect(()=>{
         containerDomRef.value.scrollTop = v
       }
     },
-    horizontalBar: horizontalBarRef.value!,
-    horizontalGutter: horizontalGutterRef.value!,
-    verticalBar: verticalBarRef.value!,
-    verticalGutter: verticalGutterRef.value!
+    horizontalBar: scrollElements.horizontalBar!.value!,
+    horizontalGutter: scrollElements.horizontalGutter!.value!,
+    verticalBar: scrollElements.verticalBar!.value!,
+    verticalGutter: scrollElements.verticalGutter!.value!
   })
   
   teardownFn = teardown
-  deriveScrollingStatusFn = derive
+  deriveScrollingStatusRef.value = derive
+  deriveScrollingStatusRef.value()
 })
 
-watchEffect(()=>{
-  if(!deriveScrollingStatus) {
-    return
-  }
-  deriveScrollingStatus()
-})
+const onContainerResize = () => {
+  const offsetHeight = containerDomRef.value?.offsetHeight
+  scrollElements.verticalGutter!.value!.style.setProperty('--container-height', `${offsetHeight}px`)
+  scrollElements.horizontalGutter!.value!.style.setProperty('--container-height', `${offsetHeight}px`)
+  deriveScrollingStatusRef.value?.()
+}
 
-onUnmounted(() => {
-  teardownFn?.()
+const containerProps = computed(() => ({
+  containerDomRef,
+  style,
+  scrollAreaClass: 'scroll-area',
+  onContainerScroll: deriveScrollingStatusRef.value,
+  onContainerResize,
+  onContentResize: deriveScrollingStatusRef.value,
+}))
+
+watch([
+  ()=>deriveScrollingStatusRef.value,
+  ()=>horizontalScrollbarMinWidth,
+  ()=> verticalScrollbarMinHeight
+],([newDeriveScrollingStatus])=>{
+  newDeriveScrollingStatus?.()
+
+  onWatcherCleanup(() => {
+    teardownFn?.()
+  })
 })
 </script>
 
 <template>
+  <component
+    v-if="containerRender"
+    :is="containerRender?.(containerProps)"
+  />
   <ScrollAreaContainerDefault
-    v-if="isDefaultContainer"
+    v-else
     v-bind="containerProps"
   >
     <slot />
   </ScrollAreaContainerDefault>
-  <component
-    v-else
-    :is="containerRender?.(containerProps)"
-  />
 </template>

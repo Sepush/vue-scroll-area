@@ -7,6 +7,7 @@
     <ScrollArea 
       :style="{ 
         height: '400px', 
+        width: '600px', 
         border: '2px solid #007acc', 
         borderRadius: '8px',
         backgroundColor: '#fff'

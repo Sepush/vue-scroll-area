@@ -28,7 +28,8 @@
     "vue/valid-v-for": "error",
     "vue/valid-v-model": "error",
     "vue/no-multiple-template-root": "error",
-    "vue/no-use-v-if-with-v-for": "warn"
+    "vue/no-use-v-if-with-v-for": "warn",
+    "import/no-unassigned-import": "off"
   },
   "env": {
     "browser": true,

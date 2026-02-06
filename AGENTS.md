@@ -51,41 +51,6 @@ pnpm lint:fix
 pnpm format
 ```
 
-### dprint Config
-
-- Line width 100 / 2-space indent / LF endings
-- Single quotes / no semicolons / trailing commas on multi-line
-- Arrow function parentheses required / sorted imports
-
-### oxlint Config
-
-- Plugins: import, typescript, unicorn, vue
-- correctness=error, suspicious=warn, perf=warn
-- Vue rules: no-unused-refs, no-ref-as-operand, require-v-for-key, etc.
-
-## Architecture
-
-### Component Communication
-
-Uses Vue Provide/Inject via `scrollAreaInjectionKey`.
-
-### Core Scroll Logic (`setup-scroll.ts`)
-
-- DOM-driven: scroll position updates scrollbar
-- Bar-driven: dragging scrollbar updates DOM scroll position
-- Dynamic scrollbar size calculation and clamping
-
-### Container Render Modes
-
-1. **Default**: `ScrollContainerDefault.vue` + ResizeObserver
-2. **Custom**: via `containerRender` prop (e.g., textarea integration)
-
-### CSS
-
-- CSS variables for dynamic values (e.g., `--container-height`)
-- Hide native scrollbar: `scrollbar-width: none` + `::-webkit-scrollbar`
-- Gutter positioning: `sticky` (default) or `absolute`
-
 ## Language Rules
 
 | Context                      | Language |
@@ -97,13 +62,12 @@ Uses Vue Provide/Inject via `scrollAreaInjectionKey`.
 
 ## Dev Conventions
 
-- Use `<script setup lang="ts">` + `useTemplateRef()`
-- Import props types from `public-types.ts`
+- Use `<script setup lang="ts">`
 - Styles in `index.css` (not scoped), BEM naming `.scroll-area-*`
 - Use CSS variables for dynamic values, not inline styles
 
 ## Notes
 
-- Library manipulates DOM directly; ensure cleanup in `onUnmounted`
 - If playground doesn't see changes, ensure lib is built (`pnpm dev:lib`)
 - If types don't resolve, run `pnpm build` to generate declarations
+- No need to kill and restart the dev server — this project supports HMR
