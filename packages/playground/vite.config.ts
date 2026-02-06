@@ -6,8 +6,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
-      'vue-scroll-area': resolve(__dirname, '../scroll-area/src/index.ts'),
+      'vue-scroll-area': resolve(import.meta.dirname, '../scroll-area/src/index.ts'),
     },
   },
   server: {

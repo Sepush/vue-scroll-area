@@ -3,21 +3,24 @@
   "version": "0.0.2",
   "description": "A Vue 3 component for a scroll area with DOM-level custom scrollbar",
   "type": "module",
-  "main": "dist/vue-scroll-area.js",
-  "module": "dist/vue-scroll-area.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue-scroll-area.js",
-      "types": "./dist/index.d.ts"
-    }
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./style.css": "./dist/index.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "vite build",
-    "dev": "vite build --watch"
+    "build": "tsdown",
+    "dev": "tsdown --watch"
   },
   "keywords": [
     "vue",
@@ -41,10 +44,9 @@
     "vue": "catalog:"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
-    "vite": "catalog:",
-    "vite-plugin-dts": "^4.5.4",
+    "unplugin-vue": "catalog:",
     "vue": "catalog:",
     "vue-tsc": "catalog:"
   }
